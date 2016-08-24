@@ -1,0 +1,56 @@
+Package %{scl_name} provides the Redis data store as a Software
+Collection.  For more information about Software Collections, see
+scl(1).  By installing the %{scl_name} collection, you will get
+the set of packages to have a working Redis server.
+
+Usage: scl enable %{scl} 'redis-cli'
+
+Software Collections allows use of applications which are not located
+in the filesystem root hierarchy but are present in an alternative
+location, which is %{_scl_root} in case of the %{scl_name}
+collection.
+
+Redis is an open source (BSD licensed), in-memory data structure store,
+used as database, cache and message broker. It supports data structures
+such as strings, hashes, lists, sets, sorted sets with range queries,
+bitmaps, hyperloglogs and geospatial indexes with radius queries.
+
+Redis has built-in replication, Lua scripting, LRU eviction, transactions
+and different levels of on-disk persistence, and provides high availability
+via Redis Sentinel and automatic partitioning with Redis Cluster.
+
+The %{?scl_prefix}redis package provides the redis and sentinel servers.
+
+Redis server listens on local network soket (by default port 6379).
+Sentinel server listens on local network soket (by default port 26379).
+
+When working with %{scl_name} collection, use the "scl" utility (see
+scl(1) for usage) to enable the scl environment properly.
+
+Configuration for the %{scl_name} software collection is located under %{_sysconfdir}.
+
+Examples:
+scl enable %{scl_name} 'command --arg'
+  Run a specific command with argument --arg within %{scl_name} software collections
+  environment.
+
+scl enable %{scl_name} 'redis-cli'
+  Run redis-cli from %{scl_name} software collection.
+
+scl enable %{scl_name} bash
+  Run interactive shell where %{scl_name} software collection is enabled.
+
+%if 0%{?rhel} >= 7
+systemctl start %{?scl_prefix}redis
+%else
+service %{?scl_prefix}redis start
+%endif
+  Starts the redis server from %{scl_name} software collection.
+
+%if 0%{?rhel} >= 7
+systemctl start %{?scl_prefix}redis-sentinel
+%else
+service %{?scl_prefix}redis-sentinel start
+%endif
+  Starts the sentinel server from %{scl_name} software collection.
+
